@@ -1,0 +1,6 @@
+Description:
+    This will generate a scaffold for the pixel-admin theme
+
+Example:
+    rails generate pixel_admin:scaffold Thing
+

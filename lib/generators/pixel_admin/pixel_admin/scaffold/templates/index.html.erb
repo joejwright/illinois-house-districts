@@ -1,0 +1,68 @@
+<div class="page-header">
+  <div class="row">
+    <!-- Page header, center on small screens -->
+    <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-cog page-header-icon"></i>&nbsp;&nbsp;<%= resource_name.humanize %></h1>
+
+    <div class="col-xs-12 col-sm-8">
+      <div class="row">
+        <hr class="visible-xs no-grid-gutter-h">
+        <!-- "Create project" button, width=auto on desktops -->
+        <div class="pull-right col-xs-12 col-sm-auto">
+          <%%= link_to new_admin_<%= singular_controller_routing_path %>_path, :class => "btn btn-primary btn-labeled" do %>
+            <span class="btn-label icon fa fa-plus"></span>Create <%= resource_name.humanize %>
+          <%% end %>
+        </div>
+        <!-- Margin -->
+        <div class="visible-xs clearfix form-group-margin"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <%% flash.each do |name, message| %>
+      <div class="alert alert-<%%= 'success' if name == 'notice'; 'danger' if name == 'alert' %>">
+      <%%= message %>
+    </div>
+  <%% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel">
+      <div class="panel-heading">
+        <span class="panel-title"><%= plural_resource_name.camelize %></span>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <%- columns.each do |column | -%>
+              <th><%= column.name %></th>
+              <%- end -%>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+          <%% @<%= plural_resource_name %>.each do |<%= resource_name %>| %>
+            <tr>
+            <%- columns.each do |column| -%>
+            <td><%%= <%= resource_name %>.<%= column.name %> %></td>
+            <%- end -%>
+            <td>
+              <%%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_admin_<%= resource_name %>_path(<%= resource_name %>), :class => 'btn btn-mini' %>
+              <%%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                admin_<%= resource_name %>_path(<%= resource_name %>),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-mini btn-danger' %>
+            </td>
+            </tr>
+          <%% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

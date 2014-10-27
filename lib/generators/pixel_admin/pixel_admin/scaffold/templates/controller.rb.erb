@@ -1,0 +1,78 @@
+class Admin::<%= plural_resource_name.camelize %>Controller < ApplicationController
+  before_filter :set_<%= resource_name %>, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
+  layout "admin"
+
+  # GET <%= plural_resource_name %>
+  # GET <%= plural_resource_name %>.json
+  def index
+    @<%= plural_resource_name %> = <%= resource_name.camelize %>.all
+  end
+
+  # GET <%= plural_resource_name %>/1
+  # GET <%= plural_resource_name %>/1.json
+  def show
+  end
+
+  # GET <%= plural_resource_name %>/new
+  # GET <%= plural_resource_name %>/new.json
+  def new
+    @<%= resource_name %> = <%= resource_name.camelize %>.new
+  end
+
+  # GET <%= resource_name %>/1/edit
+  def edit
+  end
+
+  # POST <%= plural_resource_name %>
+  # POST <%= plural_resource_name %>.json
+  def create
+    @<%= resource_name %> = <%= "#{resource_name.camelize}.new(#{resource_name}_params)" %>
+
+    respond_to do |format|
+      if @<%= "#{resource_name}.save" %>
+        format.html { redirect_to admin_<%= plural_resource_name %>_url, notice: <%= "'#{resource_name} was successfully created.'" %> }
+        format.json { render json: <%= "@#{resource_name}" %> , status: :created, location: <%= "@#{resource_name}" %> }
+      else
+        format.html { render action: "new" }
+        format.json { render json: <%= "@#{resource_name}.errors" %>, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT <%= plural_resource_name %>/1
+  # PATCH/PUT <%= plural_resource_name %>/1.json
+  def update
+    respond_to do |format|
+      if @<%= "#{resource_name}.update_attributes(#{resource_name}_params)" %>
+        format.html { redirect_to admin_<%= plural_resource_name %>_url, notice: <%= "'#{resource_name} was successfully updated.'" %> }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: <%= "@#{resource_name}.errors" %>, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE <%= plural_resource_name %>/1
+  # DELETE <%= plural_resource_name %>/1.json
+  def destroy
+    @<%= "#{resource_name}.destroy" %>
+
+    respond_to do |format|
+      format.html { redirect_to admin_<%= plural_resource_name %>_url }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+  def set_<%= resource_name %>
+    @<%= resource_name %> = <%= resource_name.camelize %>.find(params[:id] || params[:<%= resource_name %>_id])
+  end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+  def <%= resource_name %>_params
+    params.require(:<%= resource_name %>).permit(<%= columns.map{ |col| ":#{col.name}" }.join(', ') %>)
+  end
+end

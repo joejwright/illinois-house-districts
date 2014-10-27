@@ -1,0 +1,27 @@
+<% content_for :body_class, "page-signin-alt" %>
+<h1 class="form-header">Sign in to your Account</h1>
+
+<% flash.each do |name, message| %>
+  <div class="alert alert-<%= 'success' if name == 'notice'; 'danger' if name == 'alert' %>" style="width: 360px; margin: 0 auto 20px;">
+  <%= message %>
+</div>
+<% end %>
+
+<!-- Form -->
+<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => 'panel' }) do |f| %>
+  <div class="form-group">
+    <%= f.input_field :email, :required => false, :autofocus => true, :class => 'input-lg', :placeholder => "email"  %>
+  </div> <!-- / Username -->
+
+  <div class="form-group signin-password">
+    <%= f.input_field :password, :required => false, :autofocus => true, :class => 'input-lg', :placeholder => "password"  %>
+    <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+      <%= link_to "Forgot?", new_password_path(resource_name), :class => 'forgot' %>
+    <% end -%>
+  </div> <!-- / Password -->
+
+  <div class="form-actions">
+    <%= f.button :submit, "Sign in", :class => "btn btn-primary btn-block btn-lg" %>
+  </div> <!-- / .form-actions -->
+<% end %>
+<!-- / Form -->

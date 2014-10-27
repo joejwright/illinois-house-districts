@@ -1,0 +1,86 @@
+class Admin::<%= plural_resource_name.camelize %>Controller < ApplicationController
+  before_filter :authenticate_admin!
+  layout "admin"
+
+  # GET <%= plural_resource_name %>
+  # GET <%= plural_resource_name %>.json
+  def index
+    @<%= plural_resource_name %> = <%= resource_name.camelize %>.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json:  <%= "@#{plural_resource_name}" %> }
+    end
+  end
+
+  # GET <%= plural_resource_name %>/1
+  # GET <%= plural_resource_name %>/1.json
+  def show
+    @<%= resource_name %> = <%= "#{resource_name.camelize}.find(params[:id])" %>
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: <%= "@#{resource_name}" %> }
+    end
+  end
+
+  # GET <%= plural_resource_name %>/new
+  # GET <%= plural_resource_name %>/new.json
+  def new
+    @<%= resource_name %> = <%= resource_name.camelize %>.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: <%= "@#{resource_name}" %> }
+    end
+  end
+
+  # GET <%= resource_name %>/1/edit
+  def edit
+    @<%= resource_name %> = <%= "#{resource_name.camelize}.find(params[:id])" %>
+  end
+
+  # POST <%= plural_resource_name %>
+  # POST <%= plural_resource_name %>.json
+  def create
+    @<%= resource_name %> = <%= "#{resource_name.camelize}.new(params[:#{resource_name}])" %>
+
+    respond_to do |format|
+      if @<%= "#{resource_name}.save" %>
+        format.html { redirect_to admin_<%= plural_resource_name %>_url, notice: <%= "'#{resource_name} was successfully created.'" %> }
+        format.json { render json: <%= "@#{resource_name}" %> , status: :created, location: <%= "@#{resource_name}" %> }
+      else
+        format.html { render action: "new" }
+        format.json { render json: <%= "@#{resource_name}.errors" %>, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT <%= plural_resource_name %>/1
+  # PUT <%= plural_resource_name %>/1.json
+  def update
+    @<%= resource_name %> = <%= "#{resource_name.camelize}.find(params[:id])" %>
+
+    respond_to do |format|
+      if @<%= "#{resource_name}.update_attributes(params[:#{resource_name}])" %>
+        format.html { redirect_to admin_<%= plural_resource_name %>_url, notice: <%= "'#{resource_name} was successfully updated.'" %> }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: <%= "@#{resource_name}.errors" %>, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE <%= plural_resource_name %>/1
+  # DELETE <%= plural_resource_name %>/1.json
+  def destroy
+    @<%= resource_name %> = <%= "#{resource_name.camelize}.find(params[:id])" %>
+    @<%= "#{resource_name}.destroy" %>
+
+    respond_to do |format|
+      format.html { redirect_to admin_<%= plural_resource_name %>_url }
+      format.json { head :no_content }
+    end
+  end
+end

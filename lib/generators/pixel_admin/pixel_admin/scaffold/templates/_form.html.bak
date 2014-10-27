@@ -1,0 +1,40 @@
+<div class="grid_12">
+  <%%= simple_form_for([:admin, @<%= resource_name %>], html: {class: "box grid admin"}, wrapper: :admin) do |f| %>
+
+    <div class="header">
+      <h2><%= resource_name %></h2>
+    </div>
+
+    <div class="content">
+
+      <%% if @<%= resource_name %>.errors.any? %>
+        <div id="error_explanation" >
+
+          <%% @<%= resource_name %>.errors.full_messages.each do |msg| %>
+            <div class="alert error">
+							<span class="icon"></span><span class="close">x</span>
+                <strong>Error!</strong> <%%= msg %>
+						</div>
+          <%% end %>
+        </div>
+      <%% end %>
+
+      <%- columns.each do |column| -%>
+        <%%= f.input :<%= column.name %> %>
+      <%- end -%>
+    </div>
+    <!-- End of .content -->
+
+    <div class="actions">
+      <div class="left">
+        <%%= link_to 'Back', admin_<%= plural_resource_name %>_path, :class => "button red" %>
+      </div>
+      <div class="right">
+        <%%= f.submit %>
+      </div>
+    </div>
+
+  <%% end %>
+  <!-- End of .box -->
+</div>
+<!-- End of .grid_4 -->
